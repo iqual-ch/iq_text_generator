@@ -4,3 +4,4 @@ services:
     parent: default_plugin_manager
   iq_text_generator.text_generator:
     class: Drupal\iq_text_generator\Service\TextGenerator
+    arguments: ['@entity_type.manager', '@plugin.manager.iq_text_generator.text_generator_source']

@@ -5,18 +5,21 @@ namespace Drupal\iq_text_generator\Service;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\iq_text_generator\TextGeneratorSourcePluginManager;
 
+/**
+ * Provides a text generator class.
+ */
 class TextGenerator implements TextGeneratorInterface {
-  
+
   /**
    * The source configuration.
-   * 
+   *
    * @var array
    */
   private $config;
 
   /**
    * The source plugin.
-   * 
+   *
    * @var \Drupal\iq_text_generator\TextGeneratorSourcePluginInterface
    */
   private $plugin;
@@ -52,7 +55,7 @@ class TextGenerator implements TextGeneratorInterface {
       throw new \Exception('Invalid source');
     }
     $this->config = $source->settings;
-    $this->plugin = $this->pluginManager->createInstance($source->getPluginId());
+    $this->plugin = $this->pluginManager->createInstance($source->plugin_id);
   }
 
 }
