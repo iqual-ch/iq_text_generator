@@ -34,7 +34,7 @@ class TextGeneratorForm extends EntityForm {
   /**
    * The plugin manager.
    *
-   * @var \Drupal\Core\Messenger\MessengerInterface
+   * @var \Drupal\iq_text_generator\TextGeneratorPluginManager
    */
   protected $pluginManager;
 
@@ -45,10 +45,10 @@ class TextGeneratorForm extends EntityForm {
    *   The messenger.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config
    *   The config factory.
-   * @param \Drupal\iq_text_generator\textGeneratorPluginManager $pluginManager
+   * @param \Drupal\iq_text_generator\TextGeneratorPluginManager $pluginManager
    *   The plugin manager.
    */
-  public function __construct(MessengerInterface $messenger, ConfigFactoryInterface $config, textGeneratorPluginManager $pluginManager) {
+  public function __construct(MessengerInterface $messenger, ConfigFactoryInterface $config, TextGeneratorPluginManager $pluginManager) {
     $this->messenger = $messenger;
     $this->config = $config;
     $this->pluginManager = $pluginManager;

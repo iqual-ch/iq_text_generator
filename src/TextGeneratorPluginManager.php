@@ -31,7 +31,7 @@ class TextGeneratorPluginManager extends DefaultPluginManager {
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
     parent::__construct(
-      'Plugin/TextGenerator/DataSource',
+      'Plugin/TextGenerator/TextGenerator',
       $namespaces,
       $module_handler,
       'Drupal\iq_text_generator\TextGeneratorPluginInterface',
