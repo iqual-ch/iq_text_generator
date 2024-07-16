@@ -11,9 +11,9 @@ use Drupal\iq_text_generator\textGeneratorPluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines the text generator settings form.
+ * Defines the text generator source settings form.
  */
-class TextGeneratorForm extends EntityForm {
+class TextGeneratorSourceForm extends EntityForm {
 
   use StringTranslationTrait;
 
@@ -39,7 +39,7 @@ class TextGeneratorForm extends EntityForm {
   protected $pluginManager;
 
   /**
-   * Constructs a ProfileForm object.
+   * Constructs a TextGeneratorSourceForm object.
    *
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger.
@@ -61,7 +61,7 @@ class TextGeneratorForm extends EntityForm {
     return new static(
       $container->get('messenger'),
       $container->get('config.factory'),
-      $container->get('plugin.manager.iq_text_generator.text_generator')
+      $container->get('plugin.manager.iq_text_generator.text_generator_source')
     );
   }
 
@@ -152,11 +152,11 @@ class TextGeneratorForm extends EntityForm {
 
     // Redirect back to the list view if data source has been updated.
     if ($status == SAVED_UPDATED) {
-      $form_state->setRedirect('entity.text_generator.collection');
+      $form_state->setRedirect('entity.text_generator_source.collection');
     }
     else {
-      $form_state->setRedirect('entity.text_generator.edit_form', [
-        'text_generator' => $this->entity->get('id'),
+      $form_state->setRedirect('entity.text_generator_source.edit_form', [
+        'text_generator_source' => $this->entity->get('id'),
       ]);
     }
 

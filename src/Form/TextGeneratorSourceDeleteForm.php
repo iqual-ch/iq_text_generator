@@ -6,9 +6,9 @@ use Drupal\Core\Entity\EntityDeleteForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Builds the form to delete an Text Generator.
+ * Builds the form to delete an Text Generator Source.
  */
-class TextGeneratorDeleteForm extends EntityDeleteForm {
+class TextGeneratorSourceDeleteForm extends EntityDeleteForm {
 
   /**
    * {@inheritdoc}
@@ -16,7 +16,7 @@ class TextGeneratorDeleteForm extends EntityDeleteForm {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->entity->delete();
     $this->messenger()->addMessage($this->t('Text Generator %label has been deleted.', ['%label' => $this->entity->label()]));
-    $form_state->setRedirect('entity.text_generator.collection');
+    $form_state->setRedirect('entity.text_generator_source.collection');
   }
 
 }
