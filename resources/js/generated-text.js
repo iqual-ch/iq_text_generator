@@ -24,7 +24,7 @@
             };
   
             $.ajax({
-              url: '/ajax/generate-text',
+              url: '/ajax/text-generator/generate-text',
               method: 'POST',
               data: JSON.stringify(data),
               contentType: 'application/json',

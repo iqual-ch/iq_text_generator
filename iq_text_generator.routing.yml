@@ -33,3 +33,13 @@ entity.text_generator_source.delete_form:
     _title: 'Delete Text generator'
   requirements:
     _permission: 'administer Text generators'
+
+# Ajax call to generate text
+iq_text_generator.generate_text:
+  path: '/ajax/text-generator/generate-text'
+  defaults:
+    _controller: '\Drupal\iq_text_generator\Controller\TextGeneratorController::generateText'
+    _title: 'Generate Text'
+  methods: [POST]
+  requirements:
+    _role: 'authenticated'

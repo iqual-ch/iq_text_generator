@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Theme override for a 'generated-text' #type form element.
+ *
+ * Available variables
+ * - wrapper_attributes: A list of HTML attributes for the wrapper element.
+ * - attributes: A list of HTML attributes for the generated-text element.
+ * - resizable: An indicator for whether the generated-text is resizable.
+ * - required: An indicator for whether the generated-text is required.
+ * - value: The generated-text content.
+ *
+ * @see template_preprocess_generated-text()
+ */
+#}
+{%
+  set classes = [
+    'form-textarea',
+    'form-control',
+    resizable ? 'resize-' ~ resizable,
+    required ? 'required',
+  ]
+%}
+<div class="generated-text-form-element">
+  {{ element.value }}
+  <div class="generated-text-button-holder">
+    <button class="btn btn-generate">{{ 'Generate text'|t }}</button>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\hotelplan_asktom\Plugin\Field\FieldWidget;
+namespace Drupal\iq_text_generator\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;

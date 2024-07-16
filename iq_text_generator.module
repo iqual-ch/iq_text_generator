@@ -4,3 +4,15 @@
  * @file
  * Contains iq_text_generator.module.
  */
+
+/**
+ * Implements hook_theme().
+ */
+function iq_text_generator_theme() {
+  return [ 
+    'generated_text' => [
+      'render element' => 'element',
+      'template' => 'field/generated-text',
+    ],
+ ];
+}
