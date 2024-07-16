@@ -1,50 +1,44 @@
 (function ($, Drupal, once, drupalSettings) {
-    Drupal.behaviors.generatedText = {
-  
-      attach: function (context, settings) {
-  
-        once('generatedText', '.field--widget-generated-text-widget', context).forEach(function (element) {
-          let $widget = $(element);
-          $widget.find('.generated-text-button').click(function (event) {
-            event.preventDefault();
-  
-            const userProfileData = drupalSettings.hotelplan_asktom.user_profile_data;
-            var inputs = {
-              'location': userProfileData.location,
-              'keywords': userProfileData.keywords,
-              'themes': userProfileData.themes,
-              'language': drupalSettings.path.currentLanguage,
-              'llm_model_name': 'gemini-pro',
-            };
+  Drupal.behaviors.generatedText = {
 
-            // @todo 
-            var data = {
-              'source': 'hotelplan',
-              'inputs': inputs,
-            };
-  
-            $.ajax({
-              url: '/ajax/text-generator/generate-text',
-              method: 'POST',
-              data: JSON.stringify(data),
-              contentType: 'application/json',
-              success: function (response) {
-                if (response.text) {
-                  $widget.find('.generated-text').text(response.text);
-                }
-                else {
-                  alert('No text generated');
-                }
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                // Handle any errors here.
-                console.error(textStatus, errorThrown);
+    attach: function (context, settings) {
+
+      once('generatedText', '.field--widget-generated-text-widget', context).forEach(function (element) {
+        let $widget = $(element);
+
+        let $textarea = $widget.find('textarea');
+
+        $widget.find('.generated-text-button').click(function (event) {
+          event.preventDefault();
+
+          const data = {
+            'source': drupalSettings.iq_text_generator.source_id,
+            'inputs': drupalSettings.iq_text_generator.generated_text_inputs,
+          };
+
+          $.ajax({
+            url: drupalSettings.iq_text_generator.url,
+            method: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            success: function (response) {
+              if (response.text) {
+                $textarea.text(response.text);
+                $widget.find('.generated-text-button').hide();
               }
-            });
+              else {
+                alert('No text generated');
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              // Handle any errors here.
+              console.error(textStatus, errorThrown);
+            }
           });
         });
-  
-      }
-  
-    };
+      });
+
+    }
+
+  };
 })(jQuery, Drupal, once, drupalSettings);
