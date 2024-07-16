@@ -1,8 +1,12 @@
 <?php
+
 /**
  * @file
  * Hooks provided by the IQ Text Generator module.
  */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\iq_text_generator\Entity\TextGeneratorSource;
 
 /**
  * @addtogroup hooks
@@ -16,9 +20,18 @@
  *   The inputs array.
  * @param array $element
  *   The element array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
  */
-function hook_iq_text_generator_inputs_alter(array &$inputs, array $element) {
-  // No example code here. Implementations should add or modify $inputs as needed.
+function hook_iq_text_generator_inputs_alter(
+  array &$inputs,
+  array $element,
+  FormStateInterface $form_state,
+) {
+  $inputs['Languages'] = [
+    'English',
+    'Spanish',
+  ];
 }
 
 /**

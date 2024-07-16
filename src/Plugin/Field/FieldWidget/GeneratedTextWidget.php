@@ -146,7 +146,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $element['#attached']['library'][] = 'iq_text_generator/generated-text';
     $element['#attributes']['class'][] = 'generated-text-widget';
     $element['#theme'] = 'generated_text';
-    $element['#attached']['drupalSettings']['iq_text_generator'] = $this->setDrupalSettings($element);
+    $element['#attached']['drupalSettings']['iq_text_generator'] = $this->setDrupalSettings($element, $form_state);
 
     return $element;
   }
@@ -156,26 +156,14 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *
    * @param array $element
    *   The element array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    *
    * @return array
    *   The Drupal settings array.
    */
-  protected function setDrupalSettings(array $element) {
-    $inputs = [
-      'parameters' => [
-        'location' => 'Berlin, Germany',
-        'keywords' => 'Nightlife, shopping',
-        'themes' => 'City trips',
-        'language' => 'English',
-        'llm_model_name' => 'gemini-pro',
-      ],
-      'persona' => 'HotelPlan',
-      'languages' => [
-        'English'
-      ],
-      'output_type' => 'blog',
-    ];
-    $inputs = $this->getInputs($element);
+  protected function setDrupalSettings(array $element, FormStateInterface $form_state) {
+    $inputs = $this->getInputs($element, $form_state);
     $url = Url::fromRoute('iq_text_generator.generate_text')->toString();
     return [
       'source' => $this->getSetting('source_id'),
@@ -189,14 +177,17 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *
    * @param array $element
    *   The element array.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The form state.
    *
    * @return array
    *   The inputs array.
    */
-  protected function getInputs(array $element) {
+  protected function getInputs(array $element, FormStateInterface $form_state) {
     $inputs = [];
     $inputs['output_type'] = $this->getSetting('output_type');
-    $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element);
+
+    $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
     return $inputs;
   }
 
