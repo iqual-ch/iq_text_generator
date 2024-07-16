@@ -1,0 +1,1 @@
+# iQual Text Generator
