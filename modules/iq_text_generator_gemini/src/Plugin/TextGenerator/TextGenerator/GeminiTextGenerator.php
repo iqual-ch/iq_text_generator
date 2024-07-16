@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\iq_text_generator_ftp\Plugin\TextGenerator\TextGenerator;
+namespace Drupal\iq_text_generator_gemini\Plugin\TextGenerator\TextGenerator;
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\iq_text_generator\TextGeneratorPluginBase;
 use Drupal\iq_text_generator\Entity\TextGenerator;
+use Drupal\iq_text_generator\TextGeneratorPluginBase;
 
 /**
- * Provids FTP import functionality.
+ * Provides Gemini Text processing functionality.
  *
  * @TextGeneratorPlugin(
  *   id = "gemini_text_generator",

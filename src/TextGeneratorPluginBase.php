@@ -5,6 +5,7 @@ namespace Drupal\iq_text_generator;
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\iq_text_generator\Entity\TextGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -17,7 +18,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class TextGeneratorPluginBase extends PluginBase implements TextGeneratorPluginInterface, ContainerFactoryPluginInterface {
 
   use StringTranslationTrait;
-
 
   /**
    * {@inheritdoc}
