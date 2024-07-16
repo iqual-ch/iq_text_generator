@@ -70,7 +70,7 @@ class TextGeneratorSourceForm extends EntityForm {
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
-    /** @var \Drupal\iq_text_generator\Entity\TextGenerator $textGenerator */
+    /** @var \Drupal\iq_text_generator\Entity\TextGeneratorSource $textGenerator */
     $textGenerator = $this->entity;
 
     $form['label'] = [
