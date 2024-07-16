@@ -7,9 +7,9 @@ use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 
 /**
- * Provides the Text Generator manager.
+ * Provides the Text Generator Source manager.
  */
-class TextGeneratorPluginManager extends DefaultPluginManager {
+class TextGeneratorSourcePluginManager extends DefaultPluginManager {
 
   /**
    * Seetings for plugin manager.
@@ -31,11 +31,11 @@ class TextGeneratorPluginManager extends DefaultPluginManager {
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
     parent::__construct(
-      'Plugin/TextGenerator/TextGenerator',
+      'Plugin/TextGenerator/TextGeneratorSource',
       $namespaces,
       $module_handler,
-      'Drupal\iq_text_generator\TextGeneratorPluginInterface',
-      'Drupal\iq_text_generator\Annotation\TextGeneratorPlugin'
+      'Drupal\iq_text_generator\TextGeneratorSourcePluginInterface',
+      'Drupal\iq_text_generator\Annotation\TextGeneratorSourcerPlugin'
     );
     $this->alterInfo('iq_text_generator_plugin_info');
     $this->setCacheBackend($cache_backend, 'iq_text_generator_plugins');

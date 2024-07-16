@@ -1,5 +1,5 @@
-entity.text_generator.collection:
+entity.text_generator_source.collection:
   title: 'Text Generators'
-  description: 'Configure and manage Text Generators.'
-  route_name: entity.text_generator.collection
+  description: 'Configure and manage Text Generator Sources.'
+  route_name: entity.text_generator_source.collection
   parent: system.admin_config_services

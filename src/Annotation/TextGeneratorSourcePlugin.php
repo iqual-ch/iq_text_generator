@@ -5,14 +5,14 @@ namespace Drupal\iq_text_generator\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a Text Generator for a text generator item annotation object.
+ * Defines a Text Generator Source for a text generator item annotation object.
  *
  * @see \Drupal\iq_text_generator\TextGeneratorSourcePluginBase
  * @see plugin_api
  *
  * @Annotation
  */
-class TextGeneratorPlugin extends Plugin {
+class TextGeneratorSourcePlugin extends Plugin {
 
   /**
    * Style definition machine name.

@@ -4,12 +4,12 @@ namespace Drupal\iq_text_generator;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\iq_text_generator\Entity\TextGenerator;
+use Drupal\iq_text_generator\Entity\TextGeneratorSource;
 
 /**
- * Defines an interface for Text Generator plugins.
+ * Defines an interface for Text Generator Source plugins.
  */
-interface TextGeneratorPluginInterface extends PluginInspectionInterface {
+interface TextGeneratorSourcePluginInterface extends PluginInspectionInterface {
 
   /**
    * Return the plugins label.
@@ -44,13 +44,13 @@ interface TextGeneratorPluginInterface extends PluginInspectionInterface {
    *   Render array of configuratoin form.
    * @param Drupal\Core\Form\FormStateInterface $form_state
    *   Form state, containing submitted form data.
-   * @param Drupal\iq_text_generator\Entity\TextGenerator $entity
-   *   The text generator entity being processed.
+   * @param Drupal\iq_text_generator\Entity\TextGeneratorSource $entity
+   *   The text generator source being processed.
    *
    * @return array
    *   Array containing submitted & processed form values.
    */
-  public function processConfigurationForm(array &$form, FormStateInterface $form_state, TextGenerator $entity);
+  public function processConfigurationForm(array &$form, FormStateInterface $form_state, TextGeneratorSource $entity);
 
 }
 

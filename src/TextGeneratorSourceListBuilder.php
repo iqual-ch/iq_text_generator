@@ -7,11 +7,11 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Defines a listing of container configuration entities.
+ * Defines a listing of text generator source entities.
  *
- * @see \Drupal\redirect_after_login\Entity\Container
+ * @see \Drupal\iq_text_generator\Entity\TextGeneratorSource
  */
-class TextGeneratorListBuilder extends ConfigEntityListBuilder {
+class TextGeneratorSourceListBuilder extends ConfigEntityListBuilder {
   use StringTranslationTrait;
 
   /**

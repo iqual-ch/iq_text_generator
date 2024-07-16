@@ -1,4 +1,6 @@
 services:
-  plugin.manager.iq_text_generator.text_generator:
-    class: Drupal\iq_text_generator\TextGeneratorPluginManager
+  plugin.manager.iq_text_generator.text_generator_source:
+    class: Drupal\iq_text_generator\TextGeneratorSourcePluginManager
     parent: default_plugin_manager
+  iq_text_generator.text_generator:
+    class: Drupal\iq_text_generator\Service\TextGenerator

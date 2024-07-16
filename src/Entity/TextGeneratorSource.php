@@ -8,18 +8,18 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  * Defines the text generator entity.
  *
  * @ConfigEntityType(
- *   id = "text_generator",
+ *   id = "text_generator_source",
  *   label = @Translation("Text Generator for iQual Text Generator"),
  *   handlers = {
  *     "storage" = "Drupal\Core\Config\Entity\ConfigEntityStorage",
  *     "form" = {
- *       "default" = "Drupal\iq_text_generator\Form\TextGeneratorForm",
- *       "delete" = "Drupal\iq_text_generator\Form\TextGeneratorDeleteForm"
+ *       "default" = "Drupal\iq_text_generator\Form\TextGeneratorSourceForm",
+ *       "delete" = "Drupal\iq_text_generator\Form\TextGeneratorSourceDeleteForm"
  *     },
- *     "list_builder" = "Drupal\iq_text_generator\TextGeneratorListBuilder"
+ *     "list_builder" = "Drupal\iq_text_generator\TextGeneratorSourceListBuilder"
  *   },
  *   admin_permission = "administer text generator",
- *   config_prefix = "text_generator",
+ *   config_prefix = "text_generator_source",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
@@ -33,13 +33,13 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   },
  *   links = {
  *     "add-form" = "/admin/config/services/text-generator/add",
- *     "edit-form" = "/admin/config/services/text-generator/{text_generator}/edit",
- *     "delete-form" = "/admin/config/services/text-generator/{text_generator}/delete",
- *     "import" = "/admin/config/services/text-generator/{text_generator}/import",
+ *     "edit-form" = "/admin/config/services/text-generator/{text_generator_source}/edit",
+ *     "delete-form" = "/admin/config/services/text-generator/{text_generator_source}/delete",
+ *     "import" = "/admin/config/services/text-generator/{text_generator_source}/import",
  *   }
  * )
  */
-class TextGenerator extends ConfigEntityBase {
+class TextGeneratorSource extends ConfigEntityBase {
 
   /**
    * Profile machine name.

@@ -6,16 +6,16 @@ use Drupal\Component\Plugin\PluginBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\iq_text_generator\Entity\TextGenerator;
+use Drupal\iq_text_generator\Entity\TextGeneratorSource;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Base class for Text Generator plugins.
  *
  * @see \Drupal\iq_text_generator\Annotation\TextGeneratorSourcePlugin
- * @see \Drupal\iq_text_generator\TextGeneratorPluginInterface
+ * @see \Drupal\iq_text_generator\TextGeneratorSourcePluginInterface
  */
-abstract class TextGeneratorPluginBase extends PluginBase implements TextGeneratorPluginInterface, ContainerFactoryPluginInterface {
+abstract class TextGeneratorSourcePluginBase extends PluginBase implements TextGeneratorSourcePluginInterface, ContainerFactoryPluginInterface {
 
   use StringTranslationTrait;
 
@@ -57,7 +57,7 @@ abstract class TextGeneratorPluginBase extends PluginBase implements TextGenerat
   /**
    * {@inheritdoc}
    */
-  public function processConfigurationForm(array &$form, FormStateInterface $form_state, TextGenerator $entity) {
+  public function processConfigurationForm(array &$form, FormStateInterface $form_state, TextGeneratorSource $entity) {
     $settings = [];
     $settingKeys = array_keys($this->buildConfigurationForm());
     foreach ($settingKeys as $key) {

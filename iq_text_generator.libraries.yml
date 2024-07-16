@@ -1,0 +1,11 @@
+generated-text:
+  js:
+    resources/js/generated-text.js: {}
+  css:
+    theme:
+      resources/css/generated-text.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    - core/drupalSettings
