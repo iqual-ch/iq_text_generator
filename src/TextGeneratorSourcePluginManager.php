@@ -35,7 +35,7 @@ class TextGeneratorSourcePluginManager extends DefaultPluginManager {
       $namespaces,
       $module_handler,
       'Drupal\iq_text_generator\TextGeneratorSourcePluginInterface',
-      'Drupal\iq_text_generator\Annotation\TextGeneratorSourcerPlugin'
+      'Drupal\iq_text_generator\Annotation\TextGeneratorSourcePlugin'
     );
     $this->alterInfo('iq_text_generator_plugin_info');
     $this->setCacheBackend($cache_backend, 'iq_text_generator_plugins');
