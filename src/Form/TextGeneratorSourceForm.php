@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\iq_text_generator\textGeneratorPluginManager;
+use Drupal\iq_text_generator\TextGeneratorSourcePluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -34,7 +34,7 @@ class TextGeneratorSourceForm extends EntityForm {
   /**
    * The plugin manager.
    *
-   * @var \Drupal\iq_text_generator\TextGeneratorPluginManager
+   * @var \Drupal\iq_text_generator\TextGeneratorSourcePluginManager
    */
   protected $pluginManager;
 
@@ -45,10 +45,10 @@ class TextGeneratorSourceForm extends EntityForm {
    *   The messenger.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config
    *   The config factory.
-   * @param \Drupal\iq_text_generator\TextGeneratorPluginManager $pluginManager
+   * @param \Drupal\iq_text_generator\TextGeneratorSourcePluginManager $pluginManager
    *   The plugin manager.
    */
-  public function __construct(MessengerInterface $messenger, ConfigFactoryInterface $config, TextGeneratorPluginManager $pluginManager) {
+  public function __construct(MessengerInterface $messenger, ConfigFactoryInterface $config, TextGeneratorSourcePluginManager $pluginManager) {
     $this->messenger = $messenger;
     $this->config = $config;
     $this->pluginManager = $pluginManager;
