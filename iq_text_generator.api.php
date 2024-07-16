@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\iq_text_generator\Entity\TextGeneratorSource;
 
 /**
  * @addtogroup hooks
@@ -28,10 +27,7 @@ function hook_iq_text_generator_inputs_alter(
   array $element,
   FormStateInterface $form_state,
 ) {
-  $inputs['Languages'] = [
-    'English',
-    'Spanish',
-  ];
+  $inputs['output_type'] = 'article';
 }
 
 /**

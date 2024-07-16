@@ -2,6 +2,9 @@
 
 namespace Drupal\iq_text_generator\Plugin\Field\FieldWidget;
 
+use Drupal\Core\Entity\Annotation\EntityType;
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -37,6 +40,8 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *   The widget settings.
    * @param array $third_party_settings
    *   Any third party settings.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
+   *   Entity type manager service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   Module handler service.
    * @param \Drupal\iq_text_generator\TextGeneratorSourcePluginManager $textGeneratorSourcePluginManager
@@ -48,6 +53,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     FieldDefinitionInterface $field_definition,
     array $settings,
     array $third_party_settings,
+    protected EntityTypeManagerInterface $entityTypeManager,
     protected ModuleHandlerInterface $moduleHandler,
     protected TextGeneratorSourcePluginManager $textGeneratorSourcePluginManager,
   ) {
@@ -69,6 +75,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       $configuration['field_definition'],
       $configuration['settings'],
       $configuration['third_party_settings'],
+      $container->get('entity_type.manager'),
       $container->get('module_handler'),
       $container->get('plugin.manager.iq_text_generator.text_generator_source')
     );
@@ -94,12 +101,12 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $element = parent::settingsForm($form, $form_state);
 
     // Get the definitions of all plugins.
-    $definitions = $this->textGeneratorSourcePluginManager->getDefinitions();
+    $sources = $this->entityTypeManager->getStorage('text_generator_source')->loadMultiple();
 
     // Prepare an options array.
     $options = [];
-    foreach ($definitions as $id => $definition) {
-      $options[$id] = $definition['label'];
+    foreach ($sources as $source) {
+      $options[$source->id()] = $source->label();
     }
 
     $element['source_id'] = [
@@ -125,11 +132,12 @@ class GeneratedTextWidget extends StringTextareaWidget {
    */
   public function settingsSummary() {
     $summary = parent::settingsSummary();
-    $definitions = $this->textGeneratorSourcePluginManager->getDefinitions();
 
-    if (isset($definitions[$this->getSetting('source_id')])) {
-      $label = $definitions[$this->getSetting('source_id')]['label'];
-      $summary[] = $this->t('Text Generator Source: @source', ['@source' => $label]);
+    if (!empty($this->getSetting('source_id'))) {
+      $source = $this->entityTypeManager->getStorage('text_generator_source')->load($this->getSetting('source_id'));
+      if ($source) {
+        $summary[] = $this->t('Text Generator Source: @source', ['@source' => $source->label()]);
+      }
     }
 
     $summary[] = $this->t('Output type: @type', ['@type' => $this->getSetting('output_type')]);
@@ -186,7 +194,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
   protected function getInputs(array $element, FormStateInterface $form_state) {
     $inputs = [];
     $inputs['output_type'] = $this->getSetting('output_type');
-
     $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
     return $inputs;
   }
