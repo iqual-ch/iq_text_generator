@@ -1,5 +1,0 @@
-name: Gemini Text Generator
-description: iQual Text Generator powered by Gemini
-package: Web services
-type: module
-core_version_requirement: ^9.5 || ^10

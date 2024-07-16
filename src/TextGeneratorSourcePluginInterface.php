@@ -52,5 +52,18 @@ interface TextGeneratorSourcePluginInterface extends PluginInspectionInterface {
    */
   public function processConfigurationForm(array &$form, FormStateInterface $form_state, TextGeneratorSource $entity);
 
+  /**
+   * Generate text based on configuration and inputs.
+   *
+   * @param array $config
+   *   Configuration array.
+   * @param array $inputs
+   *   Array of inputs.
+   *
+   * @return string
+   *   Generated text.
+   */
+  public function generateText(array $config, array $inputs);
+
 }
 
