@@ -1,0 +1,35 @@
+# Text generator management
+entity.text_generator.collection:
+  path: '/admin/config/services/text-generator'
+  defaults:
+    _entity_list: 'text_generator'
+    _title: 'Text generators'
+  requirements:
+    _permission: 'administer Text generators'
+
+# Add Text generator form
+entity.text_generator.add_form:
+  path: '/admin/config/services/text-generator/add'
+  defaults:
+    _entity_form: text_generator.default
+    _title: 'Add Text generator'
+  requirements:
+    _permission: 'administer Text generators'
+
+# Edit Text generator form
+entity.text_generator.edit_form:
+  path: '/admin/config/services/text-generator/{text_generator}/edit'
+  defaults:
+    _entity_form: text_generator.default
+    _title: 'Edit Text generator'
+  requirements:
+    _permission: 'administer Text generators'
+
+# Delete Text generator form
+entity.text_generator.delete_form:
+  path: '/admin/config/services/text-generator/{text_generator}/delete'
+  defaults:
+    _entity_form: text_generator.delete
+    _title: 'Delete Text generator'
+  requirements:
+    _permission: 'administer Text generators'
