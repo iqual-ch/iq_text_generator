@@ -33,7 +33,7 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
 
     $form['base_url'] = [
       '#type' => 'textfield',
-      '#default_value' => $values['base_url'] ?? '',
+      '#default_value' => $settings->get('base_url') ?? '',
       '#title' => $this->t('Base URL'),
       '#description' => $this->t('Full Url of the app.'),
       '#required' => TRUE,
@@ -41,21 +41,21 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
 
     $form['persona'] = [
       '#type' => 'textfield',
-      '#default_value' => $values['persona'] ?? '',
+      '#default_value' => $settings->get('persona') ?? '',
       '#title' => $this->t('Gemini App User'),
       '#required' => TRUE,
     ];
 
     $form['llm_model_name'] = [
       '#type' => 'textfield',
-      '#default_value' => $values['llm_model_name'] ?? '',
+      '#default_value' => $settings->get('llm_model_name') ?? '',
       '#title' => $this->t('LLM Model Name'),
       '#required' => TRUE,
     ];
 
     $form['generate_endpoint'] = [
       '#type' => 'textfield',
-      '#default_value' => $values['generate_endpoint'] ?? '',
+      '#default_value' => $settings->get('generate_endpoint') ?? '',
       '#title' => $this->t('Endpoint to generate text'),
       '#required' => TRUE,
     ];

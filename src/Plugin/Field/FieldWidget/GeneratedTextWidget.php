@@ -2,16 +2,13 @@
 
 namespace Drupal\iq_text_generator\Plugin\Field\FieldWidget;
 
-use Drupal\Core\Entity\Annotation\EntityType;
-use Drupal\Core\Entity\EntityTypeManager;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\iq_text_generator\TextGeneratorSourcePluginManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -80,7 +77,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       $configuration['field_definition'],
       $configuration['settings'],
       $configuration['third_party_settings'],
-      $container->get('config_factory'),
+      $container->get('config.factory'),
       $container->get('module_handler'),
     );
   }
@@ -91,7 +88,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
   public static function defaultSettings() {
     $defaults = parent::defaultSettings();
     $defaults += [
-      'source_id' => NULL,
       'output_type' => NULL,
       'themes' => NULL,
     ];
@@ -104,23 +100,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
    */
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $element = parent::settingsForm($form, $form_state);
-
-    // Get the definitions of all plugins.
-    $sources = $this->entityTypeManager->getStorage('text_generator_source')->loadMultiple();
-
-    // Prepare an options array.
-    $options = [];
-    foreach ($sources as $source) {
-      $options[$source->id()] = $source->label();
-    }
-
-    $element['source_id'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Text Generator Source'),
-      '#default_value' => $this->getSetting('source_id'),
-      '#options' => $options,
-      '#required' => TRUE,
-    ];
 
     $element['output_type'] = [
       '#type' => 'textfield',
@@ -181,7 +160,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $inputs = $this->getInputs($element, $form_state);
     $url = Url::fromRoute('iq_text_generator.generate_text')->toString();
     return [
-      'source' => $this->getSetting('source_id'),
       'inputs' => $inputs,
       'url' => $url,
     ];

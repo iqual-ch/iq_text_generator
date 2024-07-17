@@ -2,11 +2,14 @@
 
 namespace Drupal\iq_text_generator\Service;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Http\ClientFactory;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\iq_text_generator\TextGeneratorSourcePluginManager;
+use Google\Auth\ApplicationDefaultCredentials;
+use GuzzleHttp\Exception\GuzzleException;
 
 /**
  * Provides a text generator class.
@@ -16,9 +19,9 @@ class TextGenerator implements TextGeneratorInterface {
   use StringTranslationTrait;
 
   /**
-   * The source configuration.
+   * The api configuration.
    *
-   * @var array
+   * @var \Drupal\Core\Config\ImmutableConfig
    */
   private $config;
 
@@ -41,14 +44,18 @@ class TextGenerator implements TextGeneratorInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
-   * @param \Drupal\iq_text_generator\TextGeneratorSourcePluginManager $pluginManager
-   *   The plugin manager.
+   * @param \Drupal\Core\Http\ClientFactory $httpClientFactory
+   *   The http client factory.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
     protected ClientFactory $httpClientFactory,
     ConfigFactoryInterface $configFactory,
-    LoggerChannelFactoryInterface $logger_factory
+    LoggerChannelFactoryInterface $logger_factory,
   ) {
     $this->config = $configFactory->get('iq_text_generator.settings');
     $this->logger = $logger_factory->get('text_generator');
