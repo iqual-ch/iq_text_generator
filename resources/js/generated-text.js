@@ -11,15 +11,10 @@
         $widget.find('.generated-text-button').click(function (event) {
           event.preventDefault();
 
-          const data = {
-            'source': drupalSettings.iq_text_generator.source,
-            'inputs': drupalSettings.iq_text_generator.inputs,
-          };
-
           $.ajax({
             url: drupalSettings.iq_text_generator.url,
             method: 'POST',
-            data: JSON.stringify(data),
+            data: JSON.stringify(drupalSettings.iq_text_generator.inputs),
             contentType: 'application/json',
             success: function (response) {
               if (response.text) {

@@ -1,39 +1,13 @@
-# Text generator management
-entity.text_generator_source.collection:
-  path: '/admin/config/services/text-generator-source'
+# Text generator configuration
+iq_text_generator.admin.config:
+  path: '/admin/config/text-generator/settings'
   defaults:
-    _entity_list: 'text_generator_source'
-    _title: 'Text generators'
+    _form: 'Drupal\iq_text_generator\Form\TextGeneratorSettingsForm'
+    _title: 'Text Generator settings'
+  options:
+    _admin_route: TRUE
   requirements:
-    _permission: 'administer Text generators'
-
-# Add Text generator form
-entity.text_generator_source.add_form:
-  path: '/admin/config/services/text-generator-source/add'
-  defaults:
-    _entity_form: text_generator_source.default
-    _title: 'Add Text generator'
-  requirements:
-    _permission: 'administer Text generators'
-
-# Edit Text generator form
-entity.text_generator_source.edit_form:
-  path: '/admin/config/services/text-generator-source/{text_generator_source}/edit'
-  defaults:
-    _entity_form: text_generator_source.default
-    _title: 'Edit Text generator'
-  requirements:
-    _permission: 'administer Text generators'
-
-# Delete Text generator form
-entity.text_generator_source.delete_form:
-  path: '/admin/config/services/text-generator-source/{text_generator_source}/delete'
-  defaults:
-    _entity_form: text_generator_source.delete
-    _title: 'Delete Text generator'
-  requirements:
-    _permission: 'administer Text generators'
-
+    _permission: 'administer text generator'
 # Ajax call to generate text
 iq_text_generator.generate_text:
   path: '/ajax/text-generator/generate-text'

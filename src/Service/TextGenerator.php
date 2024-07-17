@@ -2,13 +2,18 @@
 
 namespace Drupal\iq_text_generator\Service;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\iq_text_generator\TextGeneratorSourcePluginManager;
 
 /**
  * Provides a text generator class.
  */
 class TextGenerator implements TextGeneratorInterface {
+
+  use StringTranslationTrait;
 
   /**
    * The source configuration.
@@ -18,11 +23,18 @@ class TextGenerator implements TextGeneratorInterface {
   private $config;
 
   /**
-   * The source plugin.
+   * A Guzzle HTTP Client.
    *
-   * @var \Drupal\iq_text_generator\TextGeneratorSourcePluginInterface
+   * @var \Guzzle\Client
    */
-  private $plugin;
+  protected $httpClient;
+
+  /**
+   * The logger.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected $logger;
 
   /**
    * Constructs a TextGenerator object.
@@ -34,28 +46,87 @@ class TextGenerator implements TextGeneratorInterface {
    */
   public function __construct(
     protected EntityTypeManagerInterface $entityTypeManager,
-    protected TextGeneratorSourcePluginManager $pluginManager
+    protected ClientFactory $httpClientFactory,
+    ConfigFactoryInterface $configFactory,
+    LoggerChannelFactoryInterface $logger_factory
   ) {
+    $this->config = $configFactory->get('iq_text_generator.settings');
+    $this->logger = $logger_factory->get('text_generator');
   }
 
   /**
    * {@inheritdoc}
    */
-  public function generateText($sourceId, $inputs) {
-    $this->setSource($sourceId);
-    return $this->plugin->generateText($this->config, $inputs);
-  }
+  public function generateText(array $inputs) {
+    $this->establishConnection();
+    $response = $this->sendRequest('POST', $this->config->get('generate_endpoint'), [
+      'json' => $inputs,
+    ]);
 
-  /**
-   * {@inheritdoc}
-   */
-  public function setSource($sourceId) {
-    $source = $this->entityTypeManager->getStorage('text_generator_source')->load($sourceId);
-    if (!$source) {
-      throw new \Exception('Invalid source');
+    if ($response) {
+      return $response->getBody()->getContents();
     }
-    $this->config = $source->settings;
-    $this->plugin = $this->pluginManager->createInstance($source->plugin_id);
+
+    return FALSE;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function establishConnection() {
+    $this->httpClient = $this->httpClientFactory->fromOptions([
+      'base_uri' => $this->config->get('base_url'),
+      'headers' => [
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $this->getIdToken(),
+      ],
+    ]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getIdToken() {
+    $credentials = ApplicationDefaultCredentials::getCredentials([$this->config->get('base_url')]);
+    $authToken = $credentials->fetchAuthToken();
+    $idToken = $authToken['id_token'];
+
+    return $idToken;
+  }
+
+  /**
+   * Helper function to encapsulate send request and catch error.
+   *
+   * @param string $method
+   *   The method GET|POST|PATCH.
+   * @param string $url
+   *   The endpoint url.
+   * @param array $args
+   *   Custom headers, form_params, data.
+   */
+  private function sendRequest($method, $url, array $args = []) {
+    try {
+      $response = $this->httpClient->request($method, $url, $args);
+      return $response;
+    }
+    catch (GuzzleException $error) {
+      $message = new FormattableMarkup(
+        'API connection error. Error details are as follows:<pre>@response</pre>',
+        ['@response' => $error->getMessage()]
+          );
+      $this->logger->error(
+        'Remote API Connection',
+        [],
+        $message
+      );
+    }
+    catch (\Exception $error) {
+      $this->logger->error(
+        'Remote API Connection',
+        [],
+        $this->t('An unknown error occurred while trying to connect to the remote API. This is not a Guzzle error, nor an error in the remote API, rather a generic local error ocurred. The reported error was @error', ['@error' => $error->getMessage()]));
+    }
+    return FALSE;
   }
 
 }

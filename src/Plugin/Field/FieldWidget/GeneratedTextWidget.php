@@ -28,6 +28,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GeneratedTextWidget extends StringTextareaWidget {
 
   /**
+   * The configuration.
+   *
+   * @var \Drupal\Core\Config\ConfigInterface
+   */
+  protected $config;
+
+  /**
    * Constructs a InlineEntityFormComplex object.
    *
    * @param string $plugin_id
@@ -40,12 +47,10 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *   The widget settings.
    * @param array $third_party_settings
    *   Any third party settings.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   Entity type manager service.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   Module handler service.
-   * @param \Drupal\iq_text_generator\TextGeneratorSourcePluginManager $textGeneratorSourcePluginManager
-   *   The text generator source plugin manager.
    */
   public function __construct(
     $plugin_id,
@@ -53,11 +58,11 @@ class GeneratedTextWidget extends StringTextareaWidget {
     FieldDefinitionInterface $field_definition,
     array $settings,
     array $third_party_settings,
-    protected EntityTypeManagerInterface $entityTypeManager,
+    ConfigFactoryInterface $configFactory,
     protected ModuleHandlerInterface $moduleHandler,
-    protected TextGeneratorSourcePluginManager $textGeneratorSourcePluginManager,
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
+    $this->config = $configFactory->get('iq_text_generator.settings');
   }
 
   /**
@@ -75,9 +80,8 @@ class GeneratedTextWidget extends StringTextareaWidget {
       $configuration['field_definition'],
       $configuration['settings'],
       $configuration['third_party_settings'],
-      $container->get('entity_type.manager'),
+      $container->get('config_factory'),
       $container->get('module_handler'),
-      $container->get('plugin.manager.iq_text_generator.text_generator_source')
     );
   }
 
@@ -89,6 +93,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $defaults += [
       'source_id' => NULL,
       'output_type' => NULL,
+      'themes' => NULL,
     ];
 
     return $defaults;
@@ -124,6 +129,13 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#required' => TRUE,
     ];
 
+    $element['themes'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Themes'),
+      '#default_value' => $this->getSetting('themes'),
+      '#required' => TRUE,
+    ];
+
     return $element;
   }
 
@@ -133,14 +145,9 @@ class GeneratedTextWidget extends StringTextareaWidget {
   public function settingsSummary() {
     $summary = parent::settingsSummary();
 
-    if (!empty($this->getSetting('source_id'))) {
-      $source = $this->entityTypeManager->getStorage('text_generator_source')->load($this->getSetting('source_id'));
-      if ($source) {
-        $summary[] = $this->t('Text Generator Source: @source', ['@source' => $source->label()]);
-      }
-    }
-
     $summary[] = $this->t('Output type: @type', ['@type' => $this->getSetting('output_type')]);
+
+    $summary[] = $this->t('Themes: @themes', ['@themes' => $this->getSetting('themes')]);
 
     return $summary;
   }
@@ -192,8 +199,18 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *   The inputs array.
    */
   protected function getInputs(array $element, FormStateInterface $form_state) {
-    $inputs = [];
-    $inputs['output_type'] = $this->getSetting('output_type');
+    $inputs = [
+      'persona' => $this->config->get('persona'),
+      'parameters' => [
+        'location' => '',
+        'keywords' => '',
+        'themes' => $this->getSetting('themes'),
+        'language' => '',
+        'llm_model_name' => $this->config->get('llm_model_name'),
+      ],
+      'languages' => [],
+      'output_type' => $this->getSetting('output_type'),
+    ];
     $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
     return $inputs;
   }

@@ -46,7 +46,7 @@ class TextGeneratorController extends ControllerBase {
   public function generateText(Request $request) {
     $cleaned_output = FALSE;
     $data = Json::decode($request->getContent());
-    $text = $this->textGenerator->generateText($data['source'], $data['inputs']);
+    $text = $this->textGenerator->generateText($data);
     if ($text) {
       $array = Json::decode($text);
       if (is_array($array) && isset($array[0]['output'])) {

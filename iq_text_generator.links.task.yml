@@ -1,0 +1,4 @@
+iq_text_generator.admin.config:
+  route_name: iq_text_generator.admin.config
+  title: Settings
+  base_route: iq_text_generator.admin.config

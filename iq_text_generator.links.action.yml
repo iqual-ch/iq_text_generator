@@ -1,5 +1,0 @@
-entity.text_generator_source.add_form:
-  route_name: entity.text_generator_source.add_form
-  title: 'Add Text Generator'
-  appears_on:
-    - entity.text_generator_source.collection

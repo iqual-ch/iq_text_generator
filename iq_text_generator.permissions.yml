@@ -1,0 +1,4 @@
+administer text generator:
+  title: 'Administer Text Generator Settings'
+  description: ''
+  restrict access: TRUE

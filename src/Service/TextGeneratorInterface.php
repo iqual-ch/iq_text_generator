@@ -7,22 +7,25 @@ interface TextGeneratorInterface {
   /**
    * Generate text from given inputs.
    *
-   * @param string $sourceId
-   *   The source plugin id.
    * @param array $inputs
    *   An array of inputs
    *
    * @return string
    *   The generated text.
    */
-  public function generateText($sourceId, $inputs);
+  public function generateText($inputs);
 
   /**
-   * Set the source plugin and config.
-   *
-   * @param string $sourceId
-   *   The source plugin id.
+   * Establish connection to the remote API.
    */
-  public function setSource($sourceId);
+  public function establishConnection();
+
+  /**
+   * Get the ID token from the service account.
+   *
+   * @return string
+   *   The ID token.
+   */
+  public function getIdToken();
 
 }

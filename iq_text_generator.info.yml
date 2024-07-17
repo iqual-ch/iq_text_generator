@@ -3,4 +3,6 @@ description: Generate Text using external services
 package: Web services
 type: module
 core_version_requirement: ^9.5 || ^10
-configure: iq_text_generator.text_generator.collection
+configure: iq_text_generator.admin.config
+dependencies:
+  - google_api_client
