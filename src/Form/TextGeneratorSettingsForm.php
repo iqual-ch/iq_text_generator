@@ -39,20 +39,6 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
       '#required' => TRUE,
     ];
 
-    $form['persona'] = [
-      '#type' => 'textfield',
-      '#default_value' => $settings->get('persona') ?? '',
-      '#title' => $this->t('Gemini App User'),
-      '#required' => TRUE,
-    ];
-
-    $form['llm_model_name'] = [
-      '#type' => 'textfield',
-      '#default_value' => $settings->get('llm_model_name') ?? '',
-      '#title' => $this->t('LLM Model Name'),
-      '#required' => TRUE,
-    ];
-
     $form['generate_endpoint'] = [
       '#type' => 'textfield',
       '#default_value' => $settings->get('generate_endpoint') ?? '',
@@ -71,8 +57,6 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
 
     $config = $this->config('iq_text_generator.settings');
     $config->set('base_url', $form_state->getValue('base_url'));
-    $config->set('persona', $form_state->getValue('persona'));
-    $config->set('llm_model_name', $form_state->getValue('llm_model_name'));
     $config->set('generate_endpoint', $form_state->getValue('generate_endpoint'));
     $config->save();
 

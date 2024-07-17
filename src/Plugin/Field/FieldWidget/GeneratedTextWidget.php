@@ -2,7 +2,6 @@
 
 namespace Drupal\iq_text_generator\Plugin\Field\FieldWidget;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
@@ -25,13 +24,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class GeneratedTextWidget extends StringTextareaWidget {
 
   /**
-   * The configuration.
-   *
-   * @var \Drupal\Core\Config\ConfigInterface
-   */
-  protected $config;
-
-  /**
    * Constructs a InlineEntityFormComplex object.
    *
    * @param string $plugin_id
@@ -44,8 +36,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *   The widget settings.
    * @param array $third_party_settings
    *   Any third party settings.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
-   *   The config factory service.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   Module handler service.
    */
@@ -55,11 +45,9 @@ class GeneratedTextWidget extends StringTextareaWidget {
     FieldDefinitionInterface $field_definition,
     array $settings,
     array $third_party_settings,
-    ConfigFactoryInterface $configFactory,
     protected ModuleHandlerInterface $moduleHandler,
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
-    $this->config = $configFactory->get('iq_text_generator.settings');
   }
 
   /**
@@ -77,7 +65,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
       $configuration['field_definition'],
       $configuration['settings'],
       $configuration['third_party_settings'],
-      $container->get('config.factory'),
       $container->get('module_handler'),
     );
   }
@@ -88,8 +75,11 @@ class GeneratedTextWidget extends StringTextareaWidget {
   public static function defaultSettings() {
     $defaults = parent::defaultSettings();
     $defaults += [
-      'output_type' => NULL,
+      'persona' => 'HotelPlan',
+      'output_type' => 'Blog',
       'themes' => NULL,
+      'language' => 'English',
+      'llm_model_name' => 'gemini-pro',
     ];
 
     return $defaults;
@@ -101,10 +91,40 @@ class GeneratedTextWidget extends StringTextareaWidget {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $element = parent::settingsForm($form, $form_state);
 
+    $element['persona'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Persona'),
+      '#default_value' => $this->getSetting('persona'),
+      '#options' => [
+        'HotelPlan' => $this->t('HotelPlan'),
+        'Travelhouse' => $this->t('Travelhouse'),
+        'Migros Ferien' => $this->t('Migros Ferien'),
+      ],
+      '#required' => TRUE,
+    ];
+
     $element['output_type'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Output type'),
-      '#default_value' => $this->getSetting('output_type') ?? 'blog',
+      '#default_value' => $this->getSetting('output_type'),
+      '#options' => [
+        'blog' => $this->t('Blog'),
+        'hotel' => $this->t('Hotel'),
+        'destination' => $this->t('Destination'),
+      ],
+      '#required' => TRUE,
+    ];
+
+    $element['language'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Language'),
+      '#default_value' => $this->getSetting('language'),
+      '#options' => [
+        'English' => $this->t('English'),
+        'French' => $this->t('French'),
+        'German' => $this->t('German'),
+        'Italian' => $this->t('Italian'),
+      ],
       '#required' => TRUE,
     ];
 
@@ -112,6 +132,17 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#type' => 'textfield',
       '#title' => $this->t('Themes'),
       '#default_value' => $this->getSetting('themes'),
+    ];
+
+    $element['llm_model_name'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Language model'),
+      '#default_value' => $this->getSetting('llm_model_name'),
+      '#options' => [
+        'gemini-pro' => $this->t('gemini-pro'),
+        'text-bison@001' => $this->t('text-bison@001'),
+        'text-bison@002' => $this->t('text-bison@002'),
+      ],
       '#required' => TRUE,
     ];
 
@@ -123,10 +154,11 @@ class GeneratedTextWidget extends StringTextareaWidget {
    */
   public function settingsSummary() {
     $summary = parent::settingsSummary();
-
+    $summary[] = $this->t('Persona: @persona', ['@persona' => $this->getSetting('persona')]);
     $summary[] = $this->t('Output type: @type', ['@type' => $this->getSetting('output_type')]);
-
+    $summary[] = $this->t('Language: @language', ['@language' => $this->getSetting('language')]);
     $summary[] = $this->t('Themes: @themes', ['@themes' => $this->getSetting('themes')]);
+    $summary[] = $this->t('Language model: @model', ['@model' => $this->getSetting('llm_model_name')]);
 
     return $summary;
   }
@@ -178,15 +210,15 @@ class GeneratedTextWidget extends StringTextareaWidget {
    */
   protected function getInputs(array $element, FormStateInterface $form_state) {
     $inputs = [
-      'persona' => $this->config->get('persona'),
+      'persona' => $this->getSetting('persona'),
       'parameters' => [
         'location' => '',
         'keywords' => '',
         'themes' => $this->getSetting('themes'),
-        'language' => '',
-        'llm_model_name' => $this->config->get('llm_model_name'),
+        'language' => $this->getSetting('language'),
+        'llm_model_name' => $this->getSetting('llm_model_name'),
       ],
-      'languages' => [],
+      'languages' => [$this->getSetting('language')],
       'output_type' => $this->getSetting('output_type'),
     ];
     $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
