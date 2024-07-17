@@ -170,9 +170,10 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
 
     $element['#attached']['library'][] = 'iq_text_generator/generated-text';
-    $element['#attributes']['class'][] = 'generated-text-widget';
+    $element['#prefix'] = '<div class="generated-text-widget" data-field-name="' . $items->getName() . '">';
+    $element['#suffix'] = '</div>';
     $element['#theme'] = 'generated_text';
-    $element['#attached']['drupalSettings']['iq_text_generator'] = $this->setDrupalSettings($element, $form_state);
+    $element['#attached']['drupalSettings']['iq_text_generator'][$items->getName()] = $this->setDrupalSettings($element, $form_state);
 
     return $element;
   }

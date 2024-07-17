@@ -3,18 +3,23 @@
 
     attach: function (context, settings) {
 
-      once('generatedText', '.generated-text-form-element', context).forEach(function (element) {
-        let $widget = $(element).parent();
-
+      once('generatedText', '.generated-text-widget', context).forEach(function (element) {
+        let $widget = $(element);
         let $textarea = $widget.find('textarea');
+        const $fieldName = $widget.data('field-name');
+        const $fieldSettings = drupalSettings.iq_text_generator[$fieldName];
+
+        // @todo if there is text in the textarea, show the button as icon left from the field label
 
         $widget.find('.generated-text-button').click(function (event) {
           event.preventDefault();
 
+          // @todo add throbber or spinner to button and prevent further clicks
+
           $.ajax({
-            url: drupalSettings.iq_text_generator.url,
+            url: $fieldSettings.url,
             method: 'POST',
-            data: JSON.stringify(drupalSettings.iq_text_generator.inputs),
+            data: JSON.stringify($fieldSettings.inputs),
             contentType: 'application/json',
             success: function (response) {
               if (response.text) {
