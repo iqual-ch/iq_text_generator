@@ -1,7 +1,7 @@
-.generated-text-form-element {
+.generated-text-widget {
   position: relative;
   label {
-      display: none;
+    display: none;
   }
   textarea {
     background-color: #f3f3f3;
@@ -11,5 +11,13 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+  &.has-content {
+    .generated-text-button-holder {
+      top: 110%;
+    }
+    .generated-text-button__label{
+      display: none;
+    }
   }
 }

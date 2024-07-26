@@ -77,7 +77,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $defaults += [
       'persona' => 'HotelPlan',
       'output_type' => 'Blog',
-      'themes' => NULL,
+      'themes' => 'Generic text',
       'language' => 'English',
       'llm_model_name' => 'gemini-pro',
     ];
@@ -132,6 +132,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#type' => 'textfield',
       '#title' => $this->t('Themes'),
       '#default_value' => $this->getSetting('themes'),
+      '#required' => TRUE,
     ];
 
     $element['llm_model_name'] = [
@@ -168,9 +169,12 @@ class GeneratedTextWidget extends StringTextareaWidget {
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
     $element = parent::formElement($items, $delta, $element, $form, $form_state);
-
+    $class = 'generated-text-widget';
+    if (!empty($element['value']['#default_value'])) {
+      $class .= ' has-content';
+    }
     $element['#attached']['library'][] = 'iq_text_generator/generated-text';
-    $element['#prefix'] = '<div class="generated-text-widget" data-field-name="' . $items->getName() . '">';
+    $element['#prefix'] = '<div class="' . $class . '" data-field-name="' . $items->getName() . '">';
     $element['#suffix'] = '</div>';
     $element['#theme'] = 'generated_text';
     $element['#attached']['drupalSettings']['iq_text_generator'][$items->getName()] = $this->setDrupalSettings($element, $form_state);
