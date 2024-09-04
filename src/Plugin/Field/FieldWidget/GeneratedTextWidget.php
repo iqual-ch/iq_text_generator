@@ -173,6 +173,8 @@ class GeneratedTextWidget extends StringTextareaWidget {
     if (!empty($element['value']['#default_value'])) {
       $class .= ' has-content';
     }
+    $element['#id'] = 'generated-text-widget-' . $items->getName();
+    $element['#field_name'] = $items->getName();
     $element['#attached']['library'][] = 'iq_text_generator/generated-text';
     $element['#prefix'] = '<div class="' . $class . '" data-field-name="' . $items->getName() . '">';
     $element['#suffix'] = '</div>';
