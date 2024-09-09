@@ -180,7 +180,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $element['#suffix'] = '</div>';
     $element['#theme'] = 'generated_text';
     $element['#attached']['drupalSettings']['iq_text_generator'][$items->getName()] = $this->setDrupalSettings($element, $form_state);
-
+    $element['#language'] = $this->getSetting('language');
     return $element;
   }
 
