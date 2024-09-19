@@ -7,7 +7,7 @@
           let $textarea = $widget.find("textarea");
           const $fieldName = $widget.data("field-name");
           const $fieldSettings = drupalSettings.iq_text_generator[$fieldName];
-          const $modal = $("#iq-text-generator-confirmation-modal");
+          const $modal = $widget.find("#iq-text-generator-confirmation-modal");
           const $button = $widget.find(".generated-text-button");
 
           // @todo if there is text in the textarea, show the button as icon left from the field label
@@ -44,7 +44,9 @@
             if ($widget.hasClass("has-content")) {
               const id = $widget.closest(".tabs__content").attr("id");
               $button.insertAfter(
-                $widget.closest(".tabs").find(`.tabs__button[data-tab-toggle="${id}"] span`)
+                $widget
+                  .closest(".tabs")
+                  .find(`.tabs__button[data-tab-toggle="${id}"] span`)
               );
             }
           });
