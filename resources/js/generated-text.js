@@ -10,8 +10,6 @@
           const $modal = $widget.find("#iq-text-generator-confirmation-modal");
           const $button = $widget.find(".generated-text-button");
 
-          // @todo if there is text in the textarea, show the button as icon left from the field label
-
           $button.on("click", function (event) {
             event.preventDefault();
             $modal.modal("show");
