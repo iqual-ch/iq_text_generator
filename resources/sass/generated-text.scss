@@ -1,11 +1,21 @@
 .generated-text-widget {
   position: relative;
+
   label {
     display: none;
   }
+
   textarea {
     background-color: #f3f3f3;
+    min-height: 170px;
+
+    &::placeholder {
+      text-align: center;
+      color: #000000;
+      line-height: 3;
+    }
   }
+
   .generated-text-button-holder {
     position: absolute;
     top: 50%;

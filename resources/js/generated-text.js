@@ -38,16 +38,29 @@
             // @todo add throbber or spinner to button and prevent further clicks
           });
 
-          $(document).ready(function () {
-            if ($widget.hasClass("has-content")) {
-              const id = $widget.closest(".tabs__content").attr("id");
-              $button.insertAfter(
-                $widget
-                  .closest(".tabs")
-                  .find(`.tabs__button[data-tab-toggle="${id}"] span`)
-              );
-            }
-          });
+          if ($widget.hasClass("has-content")) {
+            const id = $widget
+              .closest(".asktom-translatable-tabs__tabcontent")
+              .attr("id");
+
+            $widget
+              .closest(".tabs")
+              .find(`.tabs__button[data-tab-toggle="${id}"]`)
+              .append($button);
+          }
+
+          if (!$widget.hasClass("has-content")) {
+            $textarea.on("focus", function () {
+              $button.hide();
+              $textarea.attr("data-placeholder", $(this).attr("placeholder"));
+              $textarea.removeAttr("placeholder");
+            });
+
+            $textarea.on("blur", function () {
+              $button.show();
+              $textarea.attr("placeholder", $textarea.attr("data-placeholder"));
+            });
+          }
         }
       );
     },
