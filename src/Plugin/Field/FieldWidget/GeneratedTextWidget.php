@@ -111,6 +111,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#options' => [
         'blog' => $this->t('Blog'),
         'hotel' => $this->t('Hotel'),
+        'profile' => $this->t('Profile'),
         'destination' => $this->t('Destination'),
         'golf_course' => $this->t('Golf course'),
         'itinerary' => $this->t('Itinerary'),
