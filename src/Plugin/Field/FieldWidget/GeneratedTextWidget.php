@@ -154,7 +154,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
 
     $element['generational_steps'] = [
       '#type' => 'select',
-      '#title' => $this->t('Language model'),
+      '#title' => $this->t('Generational Steps'),
       '#default_value' => $this->getSetting('generational_steps'),
       '#options' => [
         '1' => '1',
