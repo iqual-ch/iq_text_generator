@@ -76,10 +76,11 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $defaults = parent::defaultSettings();
     $defaults += [
       'persona' => 'HotelPlan',
-      'output_type' => 'Blog',
+      'output_type' => 'blog',
       'themes' => 'Generic text',
       'language' => 'English',
-      'llm_model_name' => 'gemini-pro',
+      'llm_model_name' => 'Gemini 1.5 PRO',
+      'generational_steps' => '2',
     ];
 
     return $defaults;
@@ -111,6 +112,8 @@ class GeneratedTextWidget extends StringTextareaWidget {
         'blog' => $this->t('Blog'),
         'hotel' => $this->t('Hotel'),
         'destination' => $this->t('Destination'),
+        'golf_course' => $this->t('Golf course'),
+        'itinerary' => $this->t('Itinerary'),
       ],
       '#required' => TRUE,
     ];
@@ -140,9 +143,21 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#title' => $this->t('Language model'),
       '#default_value' => $this->getSetting('llm_model_name'),
       '#options' => [
-        'gemini-pro' => $this->t('gemini-pro'),
-        'text-bison@001' => $this->t('text-bison@001'),
-        'text-bison@002' => $this->t('text-bison@002'),
+        'Gemini 1.5 PRO' => $this->t('Gemini 1.5 PRO'),
+        'Gemini 1.5 Flash' => $this->t('Gemini 1.5 Flash'),
+        'Gemini 1.0 PRO' => $this->t('Gemini 1.0 PRO'),
+        'Palm 2' => $this->t('Palm 2'),
+      ],
+      '#required' => TRUE,
+    ];
+
+    $element['generational_steps'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Language model'),
+      '#default_value' => $this->getSetting('generational_steps'),
+      '#options' => [
+        '1' => '1',
+        '2' => '2',
       ],
       '#required' => TRUE,
     ];
@@ -160,6 +175,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $summary[] = $this->t('Language: @language', ['@language' => $this->getSetting('language')]);
     $summary[] = $this->t('Themes: @themes', ['@themes' => $this->getSetting('themes')]);
     $summary[] = $this->t('Language model: @model', ['@model' => $this->getSetting('llm_model_name')]);
+    $summary[] = $this->t('Generational steps: @steps', ['@steps' => $this->getSetting('generational_steps')]);
 
     return $summary;
   }
@@ -224,6 +240,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
         'themes' => $this->getSetting('themes'),
         'language' => $this->getSetting('language'),
         'llm_model_name' => $this->getSetting('llm_model_name'),
+        'generational_steps' => $this->getSetting('generational_steps'),
       ],
       'languages' => [$this->getSetting('language')],
       'output_type' => $this->getSetting('output_type'),
