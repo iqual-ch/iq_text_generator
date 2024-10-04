@@ -33,6 +33,13 @@ class TextGenerator implements TextGeneratorInterface {
   protected $httpClient;
 
   /**
+   * The token.
+   *
+   * @var string
+   */
+  protected $token = FALSE;
+
+  /**
    * The logger.
    *
    * @var \Drupal\Core\Logger\LoggerChannelInterface
@@ -94,11 +101,21 @@ class TextGenerator implements TextGeneratorInterface {
    * {@inheritdoc}
    */
   public function getIdToken() {
-    $credentials = ApplicationDefaultCredentials::getCredentials([$this->config->get('base_url')]);
-    $authToken = $credentials->fetchAuthToken();
-    $idToken = $authToken['id_token'];
+    if (!$this->token) {
+      $credentials = ApplicationDefaultCredentials::getCredentials([$this->config->get('base_url')]);
+      try {
+        $authToken = $credentials->fetchAuthToken();
+        $this->token = $authToken['id_token'];
+      }
+      catch (\Exception $error) {
+        $this->logger->error(
+          'Remote API Connection',
+          [],
+          $this->t('An error occurred while trying to fetch the auth token. The reported error was @error', ['@error' => $error->getMessage()]));
+      }
+    }
 
-    return $idToken;
+    return $this->token;
   }
 
   /**
@@ -121,17 +138,12 @@ class TextGenerator implements TextGeneratorInterface {
         'API connection error. Error details are as follows:<pre>@response</pre>',
         ['@response' => $error->getMessage()]
           );
-      $this->logger->error(
-        'Remote API Connection',
-        [],
-        $message
-      );
+      $this->logger->error($message);
     }
     catch (\Exception $error) {
       $this->logger->error(
-        'Remote API Connection',
-        [],
-        $this->t('An unknown error occurred while trying to connect to the remote API. This is not a Guzzle error, nor an error in the remote API, rather a generic local error ocurred. The reported error was @error', ['@error' => $error->getMessage()]));
+        $this->t('An unknown error occurred while trying to connect to the remote API. This is not a Guzzle error, nor an error in the remote API, rather a generic local error ocurred. The reported error was @error', ['@error' => $error->getMessage()])
+      );
     }
     return FALSE;
   }
