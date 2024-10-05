@@ -80,7 +80,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       'themes' => 'Generic text',
       'language' => 'English',
       'llm_model_name' => 'Gemini 1.5 PRO',
-      'generational_steps' => '2',
+      'generation_steps' => '2',
     ];
 
     return $defaults;
@@ -152,10 +152,10 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#required' => TRUE,
     ];
 
-    $element['generational_steps'] = [
+    $element['generation_steps'] = [
       '#type' => 'select',
       '#title' => $this->t('Generational Steps'),
-      '#default_value' => $this->getSetting('generational_steps'),
+      '#default_value' => $this->getSetting('generation_steps'),
       '#options' => [
         '1' => '1',
         '2' => '2',
@@ -176,7 +176,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $summary[] = $this->t('Language: @language', ['@language' => $this->getSetting('language')]);
     $summary[] = $this->t('Themes: @themes', ['@themes' => $this->getSetting('themes')]);
     $summary[] = $this->t('Language model: @model', ['@model' => $this->getSetting('llm_model_name')]);
-    $summary[] = $this->t('Generational steps: @steps', ['@steps' => $this->getSetting('generational_steps')]);
+    $summary[] = $this->t('Generational steps: @steps', ['@steps' => $this->getSetting('generation_steps')]);
 
     return $summary;
   }
@@ -240,11 +240,11 @@ class GeneratedTextWidget extends StringTextareaWidget {
         'keywords' => '',
         'themes' => $this->getSetting('themes'),
         'language' => $this->getSetting('language'),
-        'llm_model_name' => $this->getSetting('llm_model_name'),
-        'generational_steps' => $this->getSetting('generational_steps'),
       ],
       'languages' => [$this->getSetting('language')],
       'output_type' => $this->getSetting('output_type'),
+      'generation_steps' => $this->getSetting('generation_steps'),
+      'llm_selection' => $this->getSetting('llm_model_name'),
     ];
     $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
     return $inputs;
