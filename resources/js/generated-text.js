@@ -12,8 +12,10 @@
 
           $button.on("click", function (event) {
             event.preventDefault();
+            event.stopPropagation();
             $modal.modal("show");
-            $modal.find(".btn-primary").on("click", function () {
+            $modal.find(".btn-primary").on("click", function (e) {
+              e.stopPropagation();
               $modal.modal("hide");
               $.ajax({
                 url: $fieldSettings.url,
