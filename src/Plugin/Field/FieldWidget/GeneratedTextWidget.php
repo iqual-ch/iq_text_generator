@@ -75,9 +75,8 @@ class GeneratedTextWidget extends StringTextareaWidget {
   public static function defaultSettings() {
     $defaults = parent::defaultSettings();
     $defaults += [
-      'persona' => 'HotelPlan',
+      'persona' => 'Neutral',
       'output_type' => 'blog',
-      'themes' => 'Generic text',
       'language' => 'English',
       'llm_model_name' => 'Gemini 1.5 PRO',
       'generation_steps' => '2',
@@ -134,13 +133,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#required' => TRUE,
     ];
 
-    $element['themes'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Themes'),
-      '#default_value' => $this->getSetting('themes'),
-      '#required' => TRUE,
-    ];
-
     $element['llm_model_name'] = [
       '#type' => 'select',
       '#title' => $this->t('Language model'),
@@ -176,7 +168,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $summary[] = $this->t('Persona: @persona', ['@persona' => $this->getSetting('persona')]);
     $summary[] = $this->t('Output type: @type', ['@type' => $this->getSetting('output_type')]);
     $summary[] = $this->t('Language: @language', ['@language' => $this->getSetting('language')]);
-    $summary[] = $this->t('Themes: @themes', ['@themes' => $this->getSetting('themes')]);
     $summary[] = $this->t('Language model: @model', ['@model' => $this->getSetting('llm_model_name')]);
     $summary[] = $this->t('Generational steps: @steps', ['@steps' => $this->getSetting('generation_steps')]);
 
@@ -237,12 +228,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
   protected function getInputs(array $element, FormStateInterface $form_state) {
     $inputs = [
       'persona' => $this->getSetting('persona'),
-      'parameters' => [
-        'location' => '',
-        'keywords' => '',
-        'themes' => $this->getSetting('themes'),
-        'language' => $this->getSetting('language'),
-      ],
+      'parameters' => [],
       'languages' => [$this->getSetting('language')],
       'output_type' => $this->getSetting('output_type'),
       'generation_steps' => $this->getSetting('generation_steps'),
