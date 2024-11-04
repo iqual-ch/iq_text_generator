@@ -97,9 +97,11 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#title' => $this->t('Persona'),
       '#default_value' => $this->getSetting('persona'),
       '#options' => [
-        'HotelPlan' => $this->t('HotelPlan'),
-        'Travelhouse' => $this->t('Travelhouse'),
+        'Hotelplan' => $this->t('HotelPlan'),
+        'travelhouse' => $this->t('Travelhouse'),
+        'tpt' => $this->t('TPT'),
         'Migros Ferien' => $this->t('Migros Ferien'),
+        'Neutral' => $this->t('Neutral'),
       ],
       '#required' => TRUE,
     ];
