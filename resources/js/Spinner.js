@@ -15,12 +15,19 @@
      * @param {jQuery} trigger - The jQuery object representing the element that triggers the spinner's visibility.
      * @param {boolean} [disableTrigger=true] - A flag indicating whether to disable the trigger element when the spinner is shown. Defaults to true.
      */
-    constructor(target, trigger, disableTrigger = true) {
+    constructor(
+      target,
+      trigger,
+      disableTrigger = true,
+      optionalText = "Text is generating"
+    ) {
       this.target = target;
       this.trigger = trigger;
       this.disableTrigger = disableTrigger;
       this.spinner = $(
-        `<div class="generated-text-spinner" style="display:none;"></div>`
+        `<div class="generated-text-spinner" style="display:none;">${Drupal.t(
+          optionalText
+        )}</div>`
       );
     }
 
@@ -61,9 +68,9 @@
     }
 
     /**
-     * Fades in the spinner.
+     * Fades in the spinner with a specified speed.
      *
-     * @param {number} [speed=300] - The duration of the fade-in effect in milliseconds, defaults to 300ms.
+     * @param {number} [speed=300] - The duration of the fade-in effect in milliseconds.
      * @returns {void}
      */
     fadeIn(speed = 300) {
@@ -72,9 +79,9 @@
     }
 
     /**
-     * Fades out the spinner and enables the trigger element.
+     * Fades out the spinner with a specified speed and enables the trigger element.
      *
-     * @param {number} [speed=300] - The duration of the fade-out effect in milliseconds, defaults to 300ms.
+     * @param {number} [speed=300] - The duration of the fade-out effect in milliseconds.
      * @returns {void}
      */
     fadeOut(speed = 300) {
