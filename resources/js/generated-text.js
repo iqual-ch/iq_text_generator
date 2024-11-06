@@ -11,12 +11,18 @@
           const $button = $widget.find(".generated-text-button");
 
           $button.on("click", function (event) {
+            const trigger = $(event.target);
+            const tabId = trigger.parent().attr("data-tab-toggle");
+            const target = $(`#${tabId}[data-tab-content]`);
+            let spinner = new $.Spinner(target, trigger);
+
             event.preventDefault();
             event.stopPropagation();
             $modal.modal("show");
             $modal.find(".btn-primary").on("click", function (e) {
               e.stopPropagation();
               $modal.modal("hide");
+              spinner.fadeIn();
               $.ajax({
                 url: $fieldSettings.url,
                 method: "POST",
@@ -26,18 +32,19 @@
                   if (response.text) {
                     $textarea.text(response.text);
                     $widget.find(".generated-text-button").hide();
+                    spinner.fadeOut();
                   } else {
                     alert("No text generated");
+                    spinner.fadeOut();
                   }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                   // Handle any errors here.
                   console.error(textStatus, errorThrown);
+                  spinner.fadeOut();
                 },
               });
             });
-
-            // @todo add throbber or spinner to button and prevent further clicks
           });
 
           if ($widget.hasClass("has-content")) {
