@@ -1,5 +1,6 @@
 generated-text:
   js:
+    resources/js/Spinner.js: {}
     resources/js/generated-text.js: {}
   css:
     theme:
