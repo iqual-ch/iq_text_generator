@@ -7,6 +7,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\Plugin\Field\FieldWidget\StringTextareaWidget;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -38,6 +39,8 @@ class GeneratedTextWidget extends StringTextareaWidget {
    *   Any third party settings.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   Module handler service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   Language manager service.
    */
   public function __construct(
     $plugin_id,
@@ -46,6 +49,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     array $settings,
     array $third_party_settings,
     protected ModuleHandlerInterface $moduleHandler,
+    protected LanguageManagerInterface $languageManager,
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
   }
@@ -66,6 +70,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       $configuration['settings'],
       $configuration['third_party_settings'],
       $container->get('module_handler'),
+      $container->get('language_manager'),
     );
   }
 
@@ -77,7 +82,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $defaults += [
       'persona' => 'Neutral',
       'output_type' => 'blog',
-      'language' => 'English',
       'llm_model_name' => 'Gemini 1.5 PRO',
       'generation_steps' => '2',
     ];
@@ -120,19 +124,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#required' => TRUE,
     ];
 
-    $element['language'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Language'),
-      '#default_value' => $this->getSetting('language'),
-      '#options' => [
-        'English' => $this->t('English'),
-        'French' => $this->t('French'),
-        'German' => $this->t('German'),
-        'Italian' => $this->t('Italian'),
-      ],
-      '#required' => TRUE,
-    ];
-
     $element['llm_model_name'] = [
       '#type' => 'select',
       '#title' => $this->t('Language model'),
@@ -167,7 +158,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $summary = parent::settingsSummary();
     $summary[] = $this->t('Persona: @persona', ['@persona' => $this->getSetting('persona')]);
     $summary[] = $this->t('Output type: @type', ['@type' => $this->getSetting('output_type')]);
-    $summary[] = $this->t('Language: @language', ['@language' => $this->getSetting('language')]);
     $summary[] = $this->t('Language model: @model', ['@model' => $this->getSetting('llm_model_name')]);
     $summary[] = $this->t('Generational steps: @steps', ['@steps' => $this->getSetting('generation_steps')]);
 
@@ -229,13 +219,44 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $inputs = [
       'persona' => $this->getSetting('persona'),
       'parameters' => [],
-      'languages' => [$this->getSetting('language')],
+      'languages' => [$this->getLanguage()['name']],
       'output_type' => $this->getSetting('output_type'),
       'generation_steps' => $this->getSetting('generation_steps'),
       'llm_selection' => $this->getSetting('llm_model_name'),
     ];
     $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
     return $inputs;
+  }
+
+  /**
+   * Get the current language.
+   *
+   * Default to English if the current language is not available.
+   * 
+   * @return array
+   *   The language array.
+   */
+  protected function getLanguage() {
+    $available_languages = [
+      'en' => [
+        'name' => 'English',
+        'label' => $this->t('English'),
+      ],
+      'de' => [
+        'name' => 'German',
+        'label' => $this->t('German'),
+      ],
+      'fr' => [
+        'name' => 'French',
+        'label' => $this->t('French'),
+      ],
+      'it' => [
+        'name' => 'Italian',
+        'label' => $this->t('Italian'),
+      ],
+    ];
+    $current_language = $this->languageManager->getCurrentLanguage()->getId();
+    return $available_languages[$current_language] ?? $available_languages['en'];
   }
 
 }
