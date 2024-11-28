@@ -232,7 +232,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
    * Get the current language.
    *
    * Default to English if the current language is not available.
-   * 
+   *
    * @return array
    *   The language array.
    */
