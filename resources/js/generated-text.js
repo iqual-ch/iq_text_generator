@@ -12,8 +12,19 @@
 
           $button.on("click", function (event) {
             const trigger = $(event.target);
-            const tabId = trigger.parent().attr("data-tab-toggle");
-            const target = $(`#${tabId}[data-tab-content]`);
+            let tabId = trigger.parent().attr("data-tab-toggle");
+            if (!tabId) {
+              // We need to distinguish between the button next to the tab name and the "Text generieren lassen" button.
+              // They are at different positions in the DOM so we need to set tabId accordingly.
+              tabId = trigger.closest("[data-tab-content]").attr("id");
+              console.log('Generated text tabId:', tabId)
+            }
+            let target = $(trigger.closest(`#${tabId}[data-tab-content]`));
+            if (!target.length) {
+              // We need to distinguish between the button next to the tab name and the "Text generieren lassen" button.
+              // They are at different positions in the DOM so we need to set trigger accordingly.
+              target = trigger.closest('.tabs__buttons').siblings('.tabs-content').find(`#${tabId}[data-tab-content]`);
+            }
             let spinner = new $.Spinner(target, trigger);
 
             event.preventDefault();
