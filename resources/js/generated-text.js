@@ -24,7 +24,7 @@
               // They are at different positions in the DOM so we need to set trigger accordingly.
               target = trigger.closest('.tabs__buttons').siblings('.tabs-content').find(`#${tabId}[data-tab-content]`);
             }
-            let spinner = new $.Spinner(target, trigger);
+            let spinner = new $.Spinner(target, trigger, true, Drupal.t("Text is generating"));
 
             event.preventDefault();
             event.stopPropagation();
@@ -44,7 +44,7 @@
                     $widget.find(".generated-text-button").hide();
                     spinner.fadeOut();
                   } else {
-                    alert("No text generated");
+                    alert(Drupal.t("An error occurred. Please try again."));
                     spinner.fadeOut();
                   }
                 },

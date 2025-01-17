@@ -14,5 +14,5 @@ function iq_text_generator_theme() {
       'render element' => 'element',
       'template' => 'field/generated-text',
     ],
- ];
+  ];
 }

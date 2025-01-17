@@ -14,7 +14,8 @@
      * @param {jQuery} target - The jQuery object representing the target element where the spinner will be appended.
      * @param {jQuery} trigger - The jQuery object representing the element that triggers the spinner's visibility.
      * @param {boolean} [disableTrigger=true] - A flag indicating whether to disable the trigger element when the spinner is shown. Defaults to true.
-     */
+     * @param {string} [optionalText="Text is generating"] - The optional text to display in the spinner.
+    */
     constructor(
       target,
       trigger,
@@ -25,9 +26,9 @@
       this.trigger = trigger;
       this.disableTrigger = disableTrigger;
       this.spinner = $(
-        `<div class="generated-text-spinner" style="display:none;">${Drupal.t(
+        `<div class="generated-text-spinner" style="display:none;">${
           optionalText
-        )}</div>`
+        }</div>`
       );
     }
 

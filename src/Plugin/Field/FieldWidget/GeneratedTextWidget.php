@@ -95,6 +95,9 @@ class GeneratedTextWidget extends StringTextareaWidget {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $element = parent::settingsForm($form, $form_state);
 
+    // Hide the placeholder setting and set a default value.
+    $element['placeholder']['#access'] = FALSE;
+
     $element['persona'] = [
       '#type' => 'select',
       '#title' => $this->t('Persona'),
@@ -181,6 +184,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $element['#theme'] = 'generated_text';
     $element['#attached']['drupalSettings']['iq_text_generator'][$items->getName()] = $this->setDrupalSettings($element, $form_state);
     $element['#language'] = $this->getSetting('language');
+    $element['value']['#placeholder'] = $this->t('No text generated yet.');
     return $element;
   }
 
