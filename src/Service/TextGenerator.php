@@ -94,6 +94,8 @@ class TextGenerator implements TextGeneratorInterface {
         'Content-Type' => 'application/json',
         'Authorization' => 'Bearer ' . $this->getIdToken(),
       ],
+      // Give enough time for the API to process and respond.
+      'timeout' => 120,
     ]);
   }
 
