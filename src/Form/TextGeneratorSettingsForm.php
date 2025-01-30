@@ -46,6 +46,14 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
       '#required' => TRUE,
     ];
 
+    $form['timeout'] = [
+      '#type' => 'number',
+      '#default_value' => $settings->get('timeout') ?? 120,
+      '#title' => $this->t('Timeout'),
+      '#description' => $this->t('Timeout in seconds.'),
+      '#required' => TRUE,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -58,6 +66,7 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
     $config = $this->config('iq_text_generator.settings');
     $config->set('base_url', $form_state->getValue('base_url'));
     $config->set('generate_endpoint', $form_state->getValue('generate_endpoint'));
+    $config->set('timeout', $form_state->getValue('timeout'));
     $config->save();
 
     parent::submitForm($form, $form_state);

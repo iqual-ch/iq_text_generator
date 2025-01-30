@@ -1,2 +1,3 @@
 base_url: ''
 generate_endpoint: ''
+timeout: 120
