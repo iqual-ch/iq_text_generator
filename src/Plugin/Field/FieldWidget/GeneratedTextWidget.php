@@ -82,7 +82,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $defaults += [
       'persona' => 'Neutral',
       'output_type' => 'blog',
-      'llm_model_name' => 'Gemini 1.5 PRO',
+      'llm_model_name' => 'Gemini 2.0 Flash',
       'generation_steps' => '2',
     ];
 
@@ -132,6 +132,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#title' => $this->t('Language model'),
       '#default_value' => $this->getSetting('llm_model_name'),
       '#options' => [
+        'Gemini 2.0 Flash' => $this->t('Gemini 2.0 Flash'),
         'Gemini 1.5 PRO' => $this->t('Gemini 1.5 PRO'),
         'Gemini 1.5 Flash' => $this->t('Gemini 1.5 Flash'),
         'Gemini 1.0 PRO' => $this->t('Gemini 1.0 PRO'),
