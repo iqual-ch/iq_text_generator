@@ -132,7 +132,7 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#title' => $this->t('Language model'),
       '#default_value' => $this->getSetting('llm_model_name'),
       '#options' => [
-        'Gemini 2.0 PRO' => $this->t('Gemini 2.5 PRO'),
+        'Gemini 2.5 PRO' => $this->t('Gemini 2.5 PRO'),
         'Gemini 2.0 Flash' => $this->t('Gemini 2.0 Flash'),
         'Gemini 1.5 PRO' => $this->t('Gemini 1.5 PRO'),
         'Gemini 1.5 Flash' => $this->t('Gemini 1.5 Flash'),
