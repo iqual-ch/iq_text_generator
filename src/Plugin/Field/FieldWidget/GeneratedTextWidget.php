@@ -82,8 +82,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $defaults += [
       'persona' => 'Neutral',
       'output_type' => 'blog',
-      'llm_model_name' => 'Gemini 2.5 PRO',
-      'generation_steps' => '2',
     ];
 
     return $defaults;
@@ -127,32 +125,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
       '#required' => TRUE,
     ];
 
-    $element['llm_model_name'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Language model'),
-      '#default_value' => $this->getSetting('llm_model_name'),
-      '#options' => [
-        'Gemini 2.5 PRO' => $this->t('Gemini 2.5 PRO'),
-        'Gemini 2.0 Flash' => $this->t('Gemini 2.0 Flash'),
-        'Gemini 1.5 PRO' => $this->t('Gemini 1.5 PRO'),
-        'Gemini 1.5 Flash' => $this->t('Gemini 1.5 Flash'),
-        'Gemini 1.0 PRO' => $this->t('Gemini 1.0 PRO'),
-        'Palm 2' => $this->t('Palm 2'),
-      ],
-      '#required' => TRUE,
-    ];
-
-    $element['generation_steps'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Generational Steps'),
-      '#default_value' => $this->getSetting('generation_steps'),
-      '#options' => [
-        '1' => '1',
-        '2' => '2',
-      ],
-      '#required' => TRUE,
-    ];
-
     return $element;
   }
 
@@ -163,8 +135,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
     $summary = parent::settingsSummary();
     $summary[] = $this->t('Persona: @persona', ['@persona' => $this->getSetting('persona')]);
     $summary[] = $this->t('Output type: @type', ['@type' => $this->getSetting('output_type')]);
-    $summary[] = $this->t('Language model: @model', ['@model' => $this->getSetting('llm_model_name')]);
-    $summary[] = $this->t('Generational steps: @steps', ['@steps' => $this->getSetting('generation_steps')]);
 
     return $summary;
   }
@@ -227,8 +197,6 @@ class GeneratedTextWidget extends StringTextareaWidget {
       'parameters' => [],
       'languages' => [$this->getLanguage()['name']],
       'output_type' => $this->getSetting('output_type'),
-      'generation_steps' => $this->getSetting('generation_steps'),
-      'llm_selection' => $this->getSetting('llm_model_name'),
     ];
     $this->moduleHandler->alter('iq_text_generator_inputs', $inputs, $element, $form_state);
     return $inputs;

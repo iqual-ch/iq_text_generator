@@ -73,6 +73,8 @@ class TextGenerator implements TextGeneratorInterface {
    */
   public function generateText(array $inputs) {
     $this->establishConnection();
+    $inputs['llm_selection'] = $this->config->get('llm');
+    $inputs['generation_steps'] = $this->config->get('generation_steps');
     $response = $this->sendRequest('POST', $this->config->get('generate_endpoint'), [
       'json' => $inputs,
     ]);

@@ -54,6 +54,22 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
       '#required' => TRUE,
     ];
 
+    $form['llm'] = [
+      '#type' => 'textfield',
+      '#default_value' => $settings->get('llm') ?? 'Gemini 2.5 Pro',
+      '#title' => $this->t('Language Model'),
+      '#description' => $this->t('Specify the language model to use.'),
+      '#required' => TRUE,
+    ];
+
+    $form['generation_steps'] = [
+      '#type' => 'number',
+      '#default_value' => $settings->get('generation_steps') ?? 2,
+      '#title' => $this->t('Generational Steps'),
+      '#description' => $this->t('Number of generational steps.'),
+      '#required' => TRUE,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -67,6 +83,9 @@ class TextGeneratorSettingsForm extends ConfigFormBase implements ContainerInjec
     $config->set('base_url', $form_state->getValue('base_url'));
     $config->set('generate_endpoint', $form_state->getValue('generate_endpoint'));
     $config->set('timeout', $form_state->getValue('timeout'));
+    $config->set('llm', $form_state->getValue('llm'));
+    $config->set('generation_steps', $form_state->getValue('generation_steps'));
+
     $config->save();
 
     parent::submitForm($form, $form_state);
