@@ -1,3 +1,5 @@
 base_url: ''
 generate_endpoint: ''
 timeout: 120
+llm: 'Gemini 2.5 Pro'
+generation_steps: 2
