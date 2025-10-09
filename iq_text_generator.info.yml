@@ -5,4 +5,4 @@ type: module
 core_version_requirement: ^10 || ^11
 configure: iq_text_generator.admin.config
 dependencies:
-  - google_api_client
+  - google_api_client:google_api_client
