@@ -5,12 +5,12 @@
     "require": {
       "php": "^8.1",
       "drupal/core": "^10 || ^11",
-      "drupal/google_api_client": "4.5.0"
+      "drupal/google_api_client": "8.x-4.x-dev as 4.5.0"
     },
     "extra": {
       "patches": {
         "drupal/google_api_client": {
-          "[https://dgo.to/3553535]: Fix configure route name": "https://git.drupalcode.org/project/google_api_client/-/merge_requests/14.diff"
+          "[https://dgo.to/3553535]: Fix configure route name": "https://git.drupalcode.org/project/google_api_client/-/merge_requests/14/diffs.diff?diff_id=1770850"
         }
       }
     }
