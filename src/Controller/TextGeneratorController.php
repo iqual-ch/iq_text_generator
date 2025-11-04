@@ -21,7 +21,7 @@ class TextGeneratorController extends ControllerBase {
    *   The text generator.
    */
   public function __construct(
-    protected TextGeneratorInterface $textGenerator
+    protected TextGeneratorInterface $textGenerator,
   ) {
   }
 
