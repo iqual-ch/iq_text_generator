@@ -2,7 +2,7 @@ name: iQual Text Generator
 description: Generate Text using external services
 package: Web services
 type: module
-core_version_requirement: ^9.5 || ^10
+core_version_requirement: ^10 || ^11
 configure: iq_text_generator.admin.config
 dependencies:
-  - google_api_client
+  - google_api_client:google_api_client
