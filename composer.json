@@ -10,7 +10,7 @@
     "extra": {
       "patches": {
         "drupal/google_api_client": {
-          "[https://dgo.to/3553535]: Fix configure route name": "https://git.drupalcode.org/project/google_api_client/-/merge_requests/14/diffs.diff?diff_id=1770850"
+          "[https://dgo.to/3553535]: Fix configure route name": "https://www.drupal.org/files/issues/2025-11-04/3553535_fix-config-route-name_8.x-4.5.patch"
         }
       }
     }
